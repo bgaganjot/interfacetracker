@@ -1,0 +1,23 @@
+#!/bin/sh /etc/rc.common
+
+START=20
+USE_PROCD=1
+
+start_service()
+{
+	procd_open_instance ifacetracker
+	procd_set_param command interfacetracker
+
+	procd_set_param file /etc/config/interfacetracker
+
+	procd_set_param stdout 1
+	procd_set_param stderr 1
+	procd_set_param user nobody
+	procd_set_param pidfile /var/run/interfacetracker.pid
+	procd_close_instance
+}
+
+service_triggers()
+{
+	procd_add_reload_trigger "/etc/config/interfacetracker"
+}
