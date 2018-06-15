@@ -44,9 +44,9 @@ int main(int argc, char **argv){
 	
 		if(fork() == 0) //child
 		{
-			dup2(pipe_arr[1], STDOUT_FILENO);
-			dup2(pipe_arr[1], STDERR_FILENO);
-			execl("/bin/ping", "ping", "-c 1", "8.8.8.8", (char*)NULL);	
+//			dup2(pipe_arr[1], STDOUT_FILENO);
+//			dup2(pipe_arr[1], STDERR_FILENO);
+			execl("/bin/ping", "ping", "8.8.8.8", (char*)NULL);	
 		}
 		else //parent
 		{
