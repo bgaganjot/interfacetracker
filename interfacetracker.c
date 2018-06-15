@@ -46,7 +46,7 @@ int main(int argc, char **argv){
 		{
 			dup2(pipe_arr[1], STDOUT_FILENO);
 			dup2(pipe_arr[1], STDERR_FILENO);
-			execl("/bin/ping", "ping", "8.8.8.8", "-c 1", (char*)NULL);	
+			execl("/bin/ping", "ping", "8.8.8.8", "-c1", (char*)NULL);	
 		}
 		else //parent
 		{
