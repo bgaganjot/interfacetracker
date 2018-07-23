@@ -53,7 +53,7 @@ int main(int argc, char **argv){
 			wait(NULL);
 			printf("parent\n");
 			read(pipe_arr[0], buf, BUFLEN);
-			printf("%s\n", buf);
+			printf("parent: %s\n", buf);
 
 		}
 
