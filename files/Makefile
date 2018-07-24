@@ -47,4 +47,16 @@ define Package/interfacetracker/install
 	$(INSTALL_BIN) ./files/interfacetracker.hotplugd $(1)/etc/hotplug.d/iface/30-interfacetracker
 endef
 
+define Package/interfacetracker/postinst
+	#!/bin/sh
+	vars=$(ifconfig | grep -v -E "^( |$)" | sed "s/ .*//")
+	echo "config interface 'default'" > /etc/config/interfacetracker
+	#echo $vars | while read -r var; do
+	for var in $vars; do
+	#       echo "$var"
+		uci set interfacetracker.default.$var=up
+	done
+	uci commit interfacetracker
+endef
+
 $(eval $(call BuildPackage,interfacetracker))
