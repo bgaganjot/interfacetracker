@@ -43,6 +43,8 @@ define Package/interfacetracker/install
 	$(INSTALL_BIN) ./files/interfacetracker.init $(1)/etc/init.d/interfacetracker
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_BIN) ./files/interfacetracker.config $(1)/etc/config/interfacetracker
+	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
+	$(INSTALL_BIN) ./files/interfacetracker.hotplugd $(1)/etc/hotplug.d/iface/30-interfacetracker
 endef
 
 $(eval $(call BuildPackage,interfacetracker))
