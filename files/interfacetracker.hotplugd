@@ -1,46 +1,33 @@
 #!/bin/sh
 
-
 [ "$ACTION" == ifup ] && {
         tmp="${ACTION#if}"
-#       echo $ACTION $DEVICE $tmp >> /tmp/helloworld
-        sed "s/$DEVICE.*/$DEVICE $tmp/" /tmp/interfaces > /tmp/up
-        mv /tmp/up /tmp/interfaces
         uci set interfacetracker.default.$DEVICE=$tmp
         uci commit interfacetracker
-        echo $DEVICE >> /tmp/previous
 }
 
 [ "$ACTION" == ifdown ] && {
         #$Device isn't set for some reason
-        #so wait a bit so ifconfig can update
-        sleep 2
-        tmp="${ACTION#if}"
-        #Get the differences between the old and the new in order to determine which interdface is down
-        ifconfig | grep -v -E "^ " | grep -v -E "^$" | sed "s/ .*//" > /tmp/current
-#       ifconfig  > ~/tmp/current
-        cat /tmp/current >> /tmp/previous
-        sort /tmp/previous > /tmp/previous2
-        dev=$(uniq -u /tmp/previous2)
-#       echo $dev $ACTION $tmp >> /tmp/helloworld
+`                                              
+        tmp="${ACTION#if}"                                                                            
+        #Get the differences between the old and the new in order to determine which interface is down
+                                                                                                                              
+        cat /etc/config/interfacetracker | grep -E "up" | sed "s/\toption //" | sed "s/ 'up'//" | sed "s/-/_/" > /tmp/previous
+        ifconfig | grep -v -E "^ " | grep -v -E "^$" | sed "s/ .*//" | sed "s/-/_/" >> /tmp/previous                          
+        sort /tmp/previous > /tmp/previous2                                                         
+        dev=$(uniq -u /tmp/previous2)      
+                                                                                                                                                                    
         #runs twice most of the time and the second time you cannot just determine the difference in the files, so check whether this is the first or second attempt
-        if [ -z $dev ]
-        then
-                echo Something >> /tmp/Something
-                #sed "s/$dev.*/$dev $tmp/" /tmp/interfaces > /tmp/down
-        else
-                sed "s/$dev.*/$dev $tmp/" /tmp/interfaces > /tmp/down
-                mv /tmp/down /tmp/interfaces
+        if [ -z $dev ]                                                                                                                                              
+        then                                     
+                echo "Something?!??!" > /dev/null
+        else                                              
                 uci set interfacetracker.default.$dev=$tmp
-                uci commit interfacetracker
-        fi
-
+                uci commit interfacetracker               
+        fi                                 
+                                                                   
         #remove tmp files and update the running list of interfaces
-        mv /tmp/current /tmp/previous
-        rm /tmp/previous2
-}
-
-#touch /tmp/helloworld
-#sed 's/helloworld/bye/' /tmp/helloworld
-#echo "Hello World!"
+        rm /tmp/previous2 /tmp/previous                            
+}                                      
+ 
 

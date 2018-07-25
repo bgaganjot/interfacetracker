@@ -7,6 +7,7 @@ echo "config interface 'default'" > /etc/config/interfacetracker
 #echo $vars | while read -r var; do
 for var in $vars; do
 #       echo "$var"
+	var=$(echo $var | sed "s/-/_/")
         uci set interfacetracker.default.$var=up
 done
 
