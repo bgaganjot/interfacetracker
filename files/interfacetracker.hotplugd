@@ -8,7 +8,7 @@
 
 [ "$ACTION" == ifdown ] && {
         #$Device isn't set for some reason
-`                                              
+                                           
         tmp="${ACTION#if}"                                                                            
         #Get the differences between the old and the new in order to determine which interface is down
                                                                                                                               

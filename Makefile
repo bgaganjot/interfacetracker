@@ -37,10 +37,6 @@ define Build/Configure
 endef
 
 define Package/interfacetracker/install
-	$(INSTALL_DIR) $(1)/usr/sbin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/interfacetracker $(1)/usr/sbin/
-	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./files/interfacetracker.init $(1)/etc/init.d/interfacetracker
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_BIN) ./files/interfacetracker.config $(1)/etc/config/interfacetracker
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
